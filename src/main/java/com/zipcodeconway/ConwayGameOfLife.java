@@ -63,6 +63,9 @@ public class ConwayGameOfLife {
             copyAndZeroOut(nextGeneration,currentGeneration);
             generationsCounter++;
             this.displayWindow.sleep(125);
+
+            //This creates infinite loop!!!
+            max--;
         }
         return currentGeneration;
     }
