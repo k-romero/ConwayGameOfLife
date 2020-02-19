@@ -10,6 +10,7 @@ public class ConwayGameOfLife {
     public ConwayGameOfLife(Integer dimension) {
         this.currentGeneration = createRandomStart(dimension);
         this.displayWindow = new SimpleWindow(dimension);
+        this.nextGeneration = new int[dimension][dimension];
      }
 
     public ConwayGameOfLife(Integer dimension, int[][] startmatrix) {
@@ -48,12 +49,7 @@ public class ConwayGameOfLife {
 
                     int currentState = currentGeneration[i][j];
 
-                    if(i == 0 || i == arrSize -1 || j == 0 || j == arrSize -1){
-                        nextGeneration[i][j] = currentState;
-                    }else {
-
                         int neighbors = isAlive(i, j, currentGeneration);
-
 
                         if (currentState == 0 && neighbors == 3) {
                             nextGeneration[i][j] = 1;
@@ -62,8 +58,6 @@ public class ConwayGameOfLife {
                         } else {
                             nextGeneration[i][j] = currentGeneration[i][j];
                         }
-                    }
-
                 }
             }
             copyAndZeroOut(nextGeneration,currentGeneration);
@@ -93,10 +87,11 @@ public class ConwayGameOfLife {
 		Any dead cell with exactly three live neighbours cells will come to life.
 	*/
     private int isAlive(int row, int col, int[][] world) {
+        int len = world.length;
         int neighborsAlive = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                neighborsAlive += world[row + i][col + j];
+                neighborsAlive += world[(row + len + i )% len][(col + len + j )% len];
             }
         }
         neighborsAlive -= world[row][col];
